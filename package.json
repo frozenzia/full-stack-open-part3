@@ -9,9 +9,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build:uilocal": "rm -rf build && cd ../full-stack-open/osa2/puhelinluettelo/ && npm run build --prod && cp -r build ../../../fso-part3/",
     "build:ui": "rm -rf build && cd ../full-stack-open/osa2/puhelinluettelo/ && npm run build --prod && cp -r build ../../../fso-part3-heroku/",
-    "deploy": "git push heroku master",
+    "deploy": "fly deploy",
     "deploy:full": "npm run build:ui && git add . && git commit -m Uibuild && npm run deploy",
-    "logs:prod": "heroku logs --tail -a salty-lake-63457",
+    "logs:prod": "fly logs -a lingering-morning-8001",
     "recreateHeroku": "rsync -a --exclude='.*' . ../fso-part3-heroku/ && cd ../fso-part3-heroku/ && rm -rf node_modules && npm i",
     "lint": "eslint ."
   },
