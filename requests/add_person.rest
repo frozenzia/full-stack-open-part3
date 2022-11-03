@@ -1,0 +1,7 @@
+POST https://lingering-morning-8001.fly.dev/api/persons
+Content-Type: application/json
+
+{
+    "name": "hulahula",
+    "phone": "555-5675"
+}
