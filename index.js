@@ -1,19 +1,19 @@
-require('dotenv').config();
-const express = require('express');
-const cors = require('cors');
+require('dotenv').config()
+const express = require('express')
+const cors = require('cors')
 const bodyParser = require('body-parser')
 const morgan = require('morgan')
 
-const errorHandler = require('./errorHandler');
-const Person = require('./models/person.js');
+const errorHandler = require('./errorHandler')
+const Person = require('./models/person.js')
 
-const app = express();
-app.use(cors());
-app.use(express.static('build'));
-app.use(bodyParser.json());
+const app = express()
+app.use(cors())
+app.use(express.static('build'))
+app.use(bodyParser.json())
 
-morgan.token('content', req => JSON.stringify(req.body));
-app.use(morgan(':method :url :status :res[content-length] - :response-time ms :content'));
+morgan.token('content', req => JSON.stringify(req.body))
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms :content'))
 
 app.get('/', (req, res) => {
   res.send('<h1>Hello World!</h1>')
@@ -31,7 +31,7 @@ app.get('/info', (req, res) => {
 
 app.get('/api/persons', (req, res) => {
   Person.find({})
-    .then(persons => res.json(persons));
+    .then(persons => res.json(persons))
 })
 
 app.get('/api/persons/:id', (req, res, next) => {
@@ -43,7 +43,7 @@ app.get('/api/persons/:id', (req, res, next) => {
         res.status(404).end()
       }
     })
-    .catch(error => next(error));
+    .catch(error => next(error))
 })
 
 app.delete('/api/persons/:id', (req, res, next) => {
@@ -51,7 +51,7 @@ app.delete('/api/persons/:id', (req, res, next) => {
     .then(() => {
       res.status(204).end()
     })
-    .catch(error => next(error));
+    .catch(error => next(error))
 })
 
 app.put('/api/persons/:id', (req, res, next) => {
@@ -65,8 +65,8 @@ app.put('/api/persons/:id', (req, res, next) => {
 })
 
 app.post('/api/persons', (req, res, next) => {
-  const newPerson = new Person({ ...req.body });
-  let error = '';
+  const newPerson = new Person({ ...req.body })
+  let error = ''
   if ( newPerson.name && newPerson.name !== ''
     && newPerson.phone && newPerson.phone !== '') {
     // const newName = newPerson.name.toLowerCase();
@@ -74,19 +74,19 @@ app.post('/api/persons', (req, res, next) => {
     newPerson.save()
       .then(resp => {
         console.log(`added ${resp.name} number ${resp.phone} to phonebook`)
-        return res.json(resp);
+        return res.json(resp)
       })
-      .catch(error => next(error));
+      .catch(error => next(error))
   } else {
     // something's missing!
-    error = 'request must include both a non-empty "name" and a non-empty "phone" field';
+    error = 'request must include both a non-empty "name" and a non-empty "phone" field'
     return res.status(400).json({ error })
   }
 })
 
-const PORT = process.env.PORT || 5001;
+const PORT = process.env.PORT || 5001
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })
 
-app.use(errorHandler);
+app.use(errorHandler)
