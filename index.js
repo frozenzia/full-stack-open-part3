@@ -31,14 +31,14 @@ app.get('/info', (req, res) => {
 
 app.get('/api/persons', (req, res) => {
   Person.find({})
-    .then(persons => res.json(persons.map(person => person.toJSON())));
+    .then(persons => res.json(persons));
 })
 
 app.get('/api/persons/:id', (req, res, next) => {
   Person.findById(req.params.id)
     .then((resp) => {
       if (resp) {
-        res.json(resp.toJSON())
+        res.json(resp)
       } else {
         res.status(404).end()
       }
@@ -57,7 +57,7 @@ app.delete('/api/persons/:id', (req, res, next) => {
 app.put('/api/persons/:id', (req, res, next) => {
   Person.findByIdAndUpdate(req.params.id, req.body, { new: true })
     .then((resp) => {
-      res.json(resp.toJSON())
+      res.json(resp)
     })
     .catch(error => next(error))
 })
@@ -72,15 +72,9 @@ app.post('/api/persons', (req, res, next) => {
     newPerson.save()
       .then(resp => {
         console.log(`added ${resp.name} number ${resp.phone} to phonebook`)
-        console.log('resp.toJSON(): ', resp.toJSON());
-        return res.json(resp.toJSON());
+        return res.json(resp);
       })
       .catch(error => next(error));
-    // return res.json(persons);
-    // } else {
-    // name must be unique!
-    //   error = 'name must be unique'
-    // }
   } else {
     // something's missing!
     error = 'request must include both a non-empty "name" and a non-empty "phone" field';
