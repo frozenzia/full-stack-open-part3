@@ -37,4 +37,4 @@ personSchema.set('toJSON', {
 // Apply the uniqueValidator plugin to personSchema.
 personSchema.plugin(uniqueValidator);
 
-module.exports = mongoose.model('Person', personSchema); // store in collection 'persons or people' (1st param, lowercase plural!)
+module.exports = mongoose.model('Person', personSchema); // store in collection 'people' (1st param, lowercase plural!)
